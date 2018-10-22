@@ -1,15 +1,15 @@
 
-!REVIVE!
+## REVIVE!
 
-Since there's not been any work done on react-loadable and I critically need to use it
+Since there's not been any work done on react-loadable 
 I've forked it and merged most important PRs waiting to be merged:
 
-jamiebuilds#151 Upgrade Babel 7
-jamiebuilds#136 Switched to using two layers of `.default` to workaround a webpack/node bug
-jamiebuilds#127 Migrate from legacy to new React lifecycle
-https://github.com/jamiebuilds/react-loadable/pull/110/files Migrate to webpack 4
-jamiebuilds#132 Use webpack asset system instead of manually writing file
-jamiebuilds#159 throw error instead of update
+- [jamiebuilds#151 Upgrade Babel 7
+- [jamiebuilds#136 Switched to using two layers of `.default` to workaround a webpack/node bug
+- [jamiebuilds#127 Migrate from legacy to new React lifecycle
+- [https://github.com/jamiebuilds/react-loadable/pull/110/files Migrate to webpack 4
+- [jamiebuilds#132 Use webpack asset system instead of manually writing file
+- [jamiebuilds#159 throw error instead of update
 
 Upgraded react-loadable with following PRs
 
