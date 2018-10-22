@@ -25,7 +25,7 @@ module.exports = {
               '@babel/preset-react',
             ],
             plugins: [
-              'syntax-dynamic-import',
+              '@babel/plugin-syntax-dynamic-import',
               '@babel/plugin-proposal-class-properties',
               '@babel/plugin-transform-object-assign',
               require.resolve('./babel'),
@@ -43,7 +43,7 @@ module.exports = {
   },
   plugins: [
     new ReactLoadablePlugin({
-      filename:  path.resolve(__dirname, 'example', 'dist', 'react-loadable.json'),
+      filename:  'react-loadable.json',
     }),
   ]
 };

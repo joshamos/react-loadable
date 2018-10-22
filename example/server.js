@@ -16,7 +16,6 @@ app.get('/', (req, res) => {
       <App/>
     </Loadable.Capture>
   );
-
   let bundles = getBundles(stats, modules);
 
   let styles = bundles.filter(bundle => bundle.file.endsWith('.css'));

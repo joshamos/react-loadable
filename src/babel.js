@@ -12,6 +12,7 @@ export default function({ types: t, template }) {
         if (!defaultSpecifier) return;
 
         let bindingName = defaultSpecifier.node.local.name;
+
         let binding = path.scope.getBinding(bindingName);
 
         binding.referencePaths.forEach(refPath => {
