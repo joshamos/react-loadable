@@ -192,15 +192,15 @@ function createLoadableComponent(loadFn, options) {
         }, opts.timeout);
       }
 
-      let update = () => {
+      let update = (newState = {}) => {
         if (!this._mounted) {
           return;
         }
 
         this.setState({
-          error: res.error,
-          loaded: res.loaded,
-          loading: res.loading
+          error: newState.error || res.error,
+          loaded: newState.loaded || res.loaded,
+          loading: newState.loading || res.loading
         });
 
         this._clearTimeouts();
@@ -211,7 +211,11 @@ function createLoadableComponent(loadFn, options) {
           update();
         })
         .catch(err => {
-          throw err;
+          if (!res.error) {
+            update({ error: err, loading: false });
+            throw err;
+          }
+          update();
         });
     }
 
