@@ -5,6 +5,7 @@ import ReactDOMServer from 'react-dom/server';
 import Loadable from 'react-loadable';
 import { getBundles } from 'react-loadable-webpack'
 import App from './components/App';
+import manifest from '../example/dist/manifest.json';
 
 const stats = require('./dist/react-loadable.json');
 const app = express();
@@ -16,11 +17,26 @@ app.get('/', (req, res) => {
       <App/>
     </Loadable.Capture>
   );
-  console.log('recharge server');
+
+  const extractMainAssets = (assets) =>
+    Object.keys(assets)
+      .filter(asset => (asset.indexOf('main') > -1 || asset.indexOf('vendors') > -1) )
+      .map(k => assets[k]);
+
+
+  console.log('manifest',extractMainAssets(manifest));
+  const main = extractMainAssets(manifest) [0];
+  const vendor = extractMainAssets(manifest) [1];
+
   let bundles = getBundles(stats, modules);
 
   let styles = bundles.filter(bundle => bundle.file.endsWith('.css'));
   let scripts = bundles.filter(bundle => bundle.file.endsWith('.js'));
+  /*
+   ${extractMainAssets(manifest).map(script => {
+   return `<script src="${script}"></script>`
+   }).join('\n')}
+   */
 
   res.send(`
     <!doctype html>
@@ -36,7 +52,9 @@ app.get('/', (req, res) => {
       </head>
       <body>
         <div id="app">${html}</div>
-        <script src="/dist/main.js"></script>
+        ${extractMainAssets(manifest).map(script => {
+          return `<script src="${script}"></script>`
+        }).join('\n')}
         ${scripts.map(script => {
           return `<script src="/dist/${script.file}"></script>`
         }).join('\n')}
