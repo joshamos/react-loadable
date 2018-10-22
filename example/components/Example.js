@@ -9,11 +9,33 @@ const LoadableNested = Loadable({
   loading: Loading,
 });
 
-export default function Example() {
-  return (
-    <div>
-      <h1>Hello from a loadable component</h1>
-      <LoadableNested/>
-    </div>
-  );
+export default class Example extends React.Component {
+
+  constructor(props) {
+    super(props);
+    console.log(props);
+    this.state = {
+      display: false,
+    };
+  }
+
+
+  render () {
+    const onClick = () => {
+      console.log('hello');
+      this.setState({
+        display: true
+      });
+    }
+    return (
+      <div>
+        <h1>Hello from a loadable component</h1>
+        <span onClick={onClick}> test</span>
+        {
+          this.state.display ? <LoadableNested/> : <div></div>
+        }
+
+      </div>
+    );
+  }
 }
