@@ -90,7 +90,9 @@ function loadMap(obj) {
 }
 
 function resolve(obj) {
-  return obj && obj.__esModule ? obj.default : obj;
+  obj = obj && obj.default ? obj.default : obj;
+  obj = obj && obj.default ? obj.default : obj;
+  return obj;
 }
 
 function render(loaded, props) {
@@ -158,7 +160,7 @@ function createLoadableComponent(loadFn, options) {
       return init();
     }
 
-    componentWillMount() {
+    componentDidMount() {
       this._mounted = true;
       this._loadModule();
     }
@@ -209,7 +211,7 @@ function createLoadableComponent(loadFn, options) {
           update();
         })
         .catch(err => {
-          update();
+          throw err;
         });
     }
 
