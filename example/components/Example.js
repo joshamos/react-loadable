@@ -13,7 +13,6 @@ export default class Example extends React.Component {
 
   constructor(props) {
     super(props);
-    console.log(props);
     this.state = {
       display: false,
     };
@@ -22,7 +21,6 @@ export default class Example extends React.Component {
 
   render () {
     const onClick = () => {
-      console.log('hello');
       this.setState({
         display: true
       });
@@ -30,9 +28,9 @@ export default class Example extends React.Component {
     return (
       <div>
         <h1>Hello from a loadable component</h1>
-        <span onClick={onClick}> test</span>
+        <span onClick={onClick}>Click to load nested component</span>
         {
-          this.state.display ? <LoadableNested/> : <div></div>
+          this.state.display ? <LoadableNested/> : null
         }
 
       </div>

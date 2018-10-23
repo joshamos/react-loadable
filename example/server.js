@@ -17,28 +17,14 @@ app.get('/', (req, res) => {
       <App/>
     </Loadable.Capture>
   );
-
   const extractMainAssets = (assets) =>
     Object.keys(assets)
       .filter(asset => (asset.indexOf('main') > -1 || asset.indexOf('vendors') > -1) )
       .map(k => assets[k]);
 
-
-  console.log('manifest',extractMainAssets(manifest));
-  const main = extractMainAssets(manifest) [0];
-  const vendor = extractMainAssets(manifest) [1];
-
   let bundles = getBundles(stats, modules);
-
   let styles = bundles.filter(bundle => bundle.file.endsWith('.css'));
-  let scripts = bundles.filter(bundle => bundle.file.endsWith('.js'));
-  /*
-   ${extractMainAssets(manifest).map(script => {
-   return `<script src="${script}"></script>`
-   }).join('\n')}
-   */
-
-  res.send(`
+  res.send( `
     <!doctype html>
     <html lang="en">
       <head>
@@ -47,17 +33,13 @@ app.get('/', (req, res) => {
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>My App</title>
         ${styles.map(style => {
-          return `<link href="/dist/${style.file}" rel="stylesheet"/>`;
-        }).join('\n')}
+    return `<link href="/dist/${style.file}" rel="stylesheet"/>`;
+  }).join('\n')}
       </head>
-      <body>
-        <div id="app">${html}</div>
-        ${extractMainAssets(manifest).map(script => {
-          return `<script src="${script}"></script>`
-        }).join('\n')}
-        ${scripts.map(script => {
-          return `<script src="/dist/${script.file}"></script>`
-        }).join('\n')}
+      <body><div id="app">${html}</div>
+      ${extractMainAssets(manifest).map(script => {
+    return `<script src="${script}"></script>`
+  }).join('\n')}
         <script>window.main();</script>
       </body>
     </html>
