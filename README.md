@@ -11,8 +11,6 @@ I've forked it and merged most important PRs waiting to be merged:
 - [jamiebuilds#132 Use webpack asset system instead of manually writing file
 - [jamiebuilds#159 throw error instead of update
 
-Upgraded react-loadable with following PRs
-
 ![React Loadable](http://thejameskyle.com/img/react-loadable-header.png)
 
 > A higher order component for loading components with dynamic imports.
