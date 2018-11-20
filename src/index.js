@@ -11,6 +11,9 @@ function isWebpackReady(getModuleIds) {
   }
 
   return getModuleIds().every(moduleId => {
+      if ( __webpack_modules__[moduleId] !== "undefined" || __webpack_modules__[moduleId] !== undefined) {
+          console.log('moduleId undefined',moduleId);
+      }
     return (
       typeof moduleId !== "undefined" &&
       typeof __webpack_modules__[moduleId] !== "undefined"

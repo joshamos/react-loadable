@@ -2,7 +2,7 @@ import express from 'express';
 import path from 'path';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
-import Loadable from 'react-loadable';
+import Loadable from '../src/index';
 import { getBundles } from 'react-loadable-webpack'
 import App from './components/App';
 import manifest from '../example/dist/manifest.json';

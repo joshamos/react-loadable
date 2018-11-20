@@ -1,5 +1,5 @@
 import React from 'react';
-import Loadable from 'react-loadable';
+import Loadable from '../../src/index';
 import Loading from './Loading';
 import delay from '../utils/delay';
 import path from 'path';
