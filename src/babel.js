@@ -3,9 +3,9 @@ export default function({ types: t, template }) {
     visitor: {
       ImportDeclaration(path) {
         let source = path.node.source.value;
-        if (source !== 'react-loadable') return;
+        if (source !== "maintained-react-loadable") return;
 
-        let defaultSpecifier = path.get('specifiers').find(specifier => {
+        let defaultSpecifier = path.get("specifiers").find(specifier => {
           return specifier.isImportDefaultSpecifier();
         });
 
@@ -21,24 +21,24 @@ export default function({ types: t, template }) {
           if (
             callExpression.isMemberExpression() &&
             callExpression.node.computed === false &&
-            callExpression.get('property').isIdentifier({ name: 'Map' })
+            callExpression.get("property").isIdentifier({ name: "Map" })
           ) {
             callExpression = callExpression.parentPath;
           }
 
           if (!callExpression.isCallExpression()) return;
 
-          let args = callExpression.get('arguments');
+          let args = callExpression.get("arguments");
           if (args.length !== 1) throw callExpression.error;
 
           let options = args[0];
           if (!options.isObjectExpression()) return;
 
-          let properties = options.get('properties');
+          let properties = options.get("properties");
           let propertiesMap = {};
 
           properties.forEach(property => {
-            let key = property.get('key');
+            let key = property.get("key");
             propertiesMap[key.node.name] = property;
           });
 
@@ -46,7 +46,7 @@ export default function({ types: t, template }) {
             return;
           }
 
-          let loaderMethod = propertiesMap.loader.get('value');
+          let loaderMethod = propertiesMap.loader.get("value");
           let dynamicImports = [];
 
           loaderMethod.traverse({
@@ -59,18 +59,18 @@ export default function({ types: t, template }) {
 
           propertiesMap.loader.insertAfter(
             t.objectProperty(
-              t.identifier('webpack'),
+              t.identifier("webpack"),
               t.arrowFunctionExpression(
                 [],
                 t.arrayExpression(
                   dynamicImports.map(dynamicImport => {
                     return t.callExpression(
                       t.memberExpression(
-                      	t.identifier('require'),
-                        t.identifier('resolveWeak'),
+                        t.identifier("require"),
+                        t.identifier("resolveWeak")
                       ),
-                      [dynamicImport.get('arguments')[0].node],
-                    )
+                      [dynamicImport.get("arguments")[0].node]
+                    );
                   })
                 )
               )
@@ -79,10 +79,10 @@ export default function({ types: t, template }) {
 
           propertiesMap.loader.insertAfter(
             t.objectProperty(
-              t.identifier('modules'),
+              t.identifier("modules"),
               t.arrayExpression(
                 dynamicImports.map(dynamicImport => {
-                  return dynamicImport.get('arguments')[0].node;
+                  return dynamicImport.get("arguments")[0].node;
                 })
               )
             )
