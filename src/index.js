@@ -15,7 +15,7 @@ function isWebpackReady(getModuleIds) {
       __webpack_modules__[moduleId] !== "undefined" ||
       __webpack_modules__[moduleId] !== undefined
     ) {
-      console.log("moduleId undefined", moduleId);
+      // console.log("moduleId undefined", moduleId);
     }
     return (
       typeof moduleId !== "undefined" &&
@@ -197,14 +197,14 @@ function createLoadableComponent(loadFn, options) {
           this.setState({ pastDelay: true });
         } else {
           this._delay = setTimeout(() => {
-            this.setStateWithMountCheck({ pastDelay: true });
+            setStateWithMountCheck({ pastDelay: true });
           }, opts.delay);
         }
       }
 
       if (typeof opts.timeout === "number") {
         this._timeout = setTimeout(() => {
-          this.setStateWithMountCheck({ timedOut: true });
+          setStateWithMountCheck({ timedOut: true });
         }, opts.timeout);
       }
 
@@ -213,7 +213,7 @@ function createLoadableComponent(loadFn, options) {
           return;
         }
 
-        this.setStateWithMountCheck({
+        setStateWithMountCheck({
           error: newState.error || res.error,
           loaded: newState.loaded || res.loaded,
           loading: newState.loading || res.loading
