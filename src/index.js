@@ -11,9 +11,12 @@ function isWebpackReady(getModuleIds) {
   }
 
   return getModuleIds().every(moduleId => {
-      if ( __webpack_modules__[moduleId] !== "undefined" || __webpack_modules__[moduleId] !== undefined) {
-          console.log('moduleId undefined',moduleId);
-      }
+    if (
+      __webpack_modules__[moduleId] !== "undefined" ||
+      __webpack_modules__[moduleId] !== undefined
+    ) {
+      console.log("moduleId undefined", moduleId);
+    }
     return (
       typeof moduleId !== "undefined" &&
       typeof __webpack_modules__[moduleId] !== "undefined"
@@ -163,9 +166,12 @@ function createLoadableComponent(loadFn, options) {
       return init();
     }
 
+    componentWillMount() {
+      this._loadModule();
+    }
+
     componentDidMount() {
       this._mounted = true;
-      this._loadModule();
     }
 
     _loadModule() {
@@ -179,19 +185,26 @@ function createLoadableComponent(loadFn, options) {
         return;
       }
 
+      let setStateWithMountCheck = newState => {
+        if (!this._mounted) {
+          return;
+        }
+        this.setState(newState);
+      };
+
       if (typeof opts.delay === "number") {
         if (opts.delay === 0) {
           this.setState({ pastDelay: true });
         } else {
           this._delay = setTimeout(() => {
-            this.setState({ pastDelay: true });
+            this.setStateWithMountCheck({ pastDelay: true });
           }, opts.delay);
         }
       }
 
       if (typeof opts.timeout === "number") {
         this._timeout = setTimeout(() => {
-          this.setState({ timedOut: true });
+          this.setStateWithMountCheck({ timedOut: true });
         }, opts.timeout);
       }
 
@@ -200,7 +213,7 @@ function createLoadableComponent(loadFn, options) {
           return;
         }
 
-        this.setState({
+        this.setStateWithMountCheck({
           error: newState.error || res.error,
           loaded: newState.loaded || res.loaded,
           loading: newState.loading || res.loading
